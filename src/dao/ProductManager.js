@@ -1,12 +1,16 @@
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import { SERVER_CONFIG } from '../config/server.config.js';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class ProductManager {
   constructor() {
-    this.path = SERVER_CONFIG.PRODUCTS_FILE;
-    this.products = [];
-    this.loadProducts();
+      this.path = join(__dirname, '../products.json'); // Ruta absoluta
+      this.products = [];
+      this.loadProducts(); // ← Verifica que no lance error aquí
   }
 
   async loadProducts() {

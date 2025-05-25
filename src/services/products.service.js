@@ -1,4 +1,5 @@
 import { ProductManager } from '../dao/ProductManager.js';
+import { io } from '../app.js';
 
 const productManager = new ProductManager();
 
@@ -7,12 +8,21 @@ export class ProductsService {
     return await productManager.getProducts();
   }
 
-  static async getProductById(id) {
-    return await productManager.getProductById(id);
+  static async getProducts() {
+  console.log('Accediendo a getProducts()');
+  try {
+    const products = await productManager.getProducts();
+    console.log(`Productos obtenidos: ${products.length}`);
+    return products;
+  } catch (error) {
+    console.error('Error en getProducts:', error);
+    throw error;
   }
+}
 
   static async addProduct(productData) {
-    return await productManager.addProduct(productData);
+    const newProduct = await productManager.addProduct(productData);
+    return newProduct;
   }
 
   static async updateProduct(id, updatedFields) {
@@ -20,6 +30,7 @@ export class ProductsService {
   }
 
   static async deleteProduct(id) {
-    return await productManager.deleteProduct(id);
+    const deletedProduct = await productManager.deleteProduct(id);
+    return deletedProduct;
   }
 }
